@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Users</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Librairie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/livres}">Liste des livres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user/listEmprunt}">Mes emprunts</a>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" method="post" style="margin-left: auto">
+                <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+                <input class="btn btn-primary" type="submit" value="Sign Out" />
+            </form>
+        </div>
+    </nav>
+    <h1>Detail du livre</h1>
+    <div  class="row">
+        <span>Titre: <p th:text="${livre.titre}"></p></span>
+    </div>
+    <div  class="row">
+        <span>Auteur: <p th:text="${livre.auteur}"></p></span>
+    </div>
+    <div  class="row">
+        <span>Description: <p th:text="${livre.description}"></p></span>
+    </div>
+    <div  class="row">
+        <span>Date de parution: <p th:text="${livre.dateParution}"></p></span>
+    </div>
+    <div  class="row">
+        <span>Etat: <p th:text="${livre.etat}"></p></span>
+    </div>
+    <div class="row">
+        <h2>Commentaire:</h2>
+    </div>
+    <div th:each="item: ${listAvis}" class="row">
+        -<p th:text="${item.commentaire}"></p>
+    </div>
+    <form th:action="@{/livre/detail/avis/{id}(id=${livre.getId()})}" th:object="${avis}" method="post">
+        <label>Votre commentaire:</label>
+        <input type="text" th:field="*{commentaire}">
+        <button type="submit" class="btn btn-success">Ajouter</button>
+    </form>
+</div>
+</body>
+</html>

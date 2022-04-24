@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Users</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Librairie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/livres}">Liste des livres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user/listEmprunt}">Mes emprunts</a>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" method="post" style="margin-left: auto">
+                <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+                <input class="btn btn-primary" type="submit" value="Sign Out" />
+            </form>
+        </div>
+    </nav>
+    <div>
+        <h1>Liste des Livres</h1>
+    </div>
+    <div>
+        <a th:href="@{/livre/creerlivre}"><input class="btn btn-primary" type="submit" value="Ajouter un livre" /></a>
+    </div>
+    <br>
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-primary">
+            <tr>
+                <th>Livre ID</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Description</th>
+                <th>Date de parution</th>
+                <th>Etat</th>
+                <th>Nb livre</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="livre: ${booksList}">
+                <td th:text="${livre.id}">Livre ID</td>
+                <td th:text="${livre.getTitre()}">Etat</td>
+                <td th:text="${livre.getAuteur()}">Auteur</td>
+                <td th:text="${livre.getDescription()}">Description</td>
+                <td th:text="${livre.getDateParution()}">Date de parution</td>
+                <td th:text="${livre.getEtat()}">Etat</td>
+                <td th:text="${livre.getNbPages()}">Nb pages</td>
+                <td><a class="btn btn-danger" th:href="@{/livre/delete/{id}(id=${livre.getId()})}" type="submit">Supprimer</a></td>
+                <td><a class="btn btn-success" th:href="@{/livre/emprunt/{id}(id=${livre.getId()})}" type="submit">Emprunter</a></td>
+                <td><a class="btn btn-primary" th:href="@{/livre/detail/{id}(id=${livre.getId()})}" type="submit">Detail</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
